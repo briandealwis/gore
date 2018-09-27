@@ -1,0 +1,15 @@
+Manifest-Version: 1.0
+Bundle-ManifestVersion: 2
+Bundle-Name: Gorp - Go Runtime for Eclipse
+Bundle-SymbolicName: ca.mt.gore;singleton:=true
+Bundle-Version: 0.0.1.qualifier
+Automatic-Module-Name: ca.mt.gore
+Bundle-RequiredExecutionEnvironment: JavaSE-1.8
+Require-Bundle: org.eclipse.lsp4e;bundle-version="0.7.0",
+ org.eclipse.ui;bundle-version="3.110.0",
+ org.eclipse.ui.genericeditor;bundle-version="1.1.100",
+ org.eclipse.tm4e.ui;bundle-version="0.2.0",
+ org.eclipse.tm4e.core;bundle-version="0.2.0",
+ org.eclipse.jface.text
+Import-Package: org.eclipse.core.runtime;version="3.5.0",
+ org.osgi.framework

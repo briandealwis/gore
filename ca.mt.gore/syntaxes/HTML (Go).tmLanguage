@@ -1,0 +1,213 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
+<!-- 
+Copied 2018/09/26 from 
+https://github.com/syscrusher/golang.tmbundle/blob/197a72fd128d574e5ec907ec55f51d72c3e163bc/Preferences/HTML%20(Go).tmPreferences
+
+Copyright (c) 2009, Jim Dovey
+All rights reserved.
+
+Redistribution and use in source and binary forms, with or without modification, are permitted provided that the following conditions are met:
+
+- Redistributions of source code must retain the above copyright notice, this list of conditions and the following disclaimer.
+- Redistributions in binary form must reproduce the above copyright notice, this list of conditions and the following disclaimer in the documentation and/or other materials provided with the distribution.
+- Neither the name of the copyright holder nor the names of the software's contributors may be used to endorse or promote products derived from this software without specific prior written permission.
+
+THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS "AS IS" AND ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT LIMITED TO, THE IMPLIED WARRANTIES OF MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE ARE DISCLAIMED. IN NO EVENT SHALL THE COPYRIGHT HOLDER OR CONTRIBUTORS BE LIABLE FOR ANY DIRECT, INDIRECT, INCIDENTAL, SPECIAL, EXEMPLARY, OR CONSEQUENTIAL DAMAGES (INCLUDING, BUT NOT LIMITED TO, PROCUREMENT OF SUBSTITUTE GOODS OR SERVICES; LOSS OF USE, DATA, OR PROFITS; OR BUSINESS INTERRUPTION) HOWEVER CAUSED AND ON ANY THEORY OF LIABILITY, WHETHER IN CONTRACT, STRICT LIABILITY, OR TORT (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
+
+Portions based on Allan Odgaard's C bundle for TextMate.
+
+-->
+<plist version="1.0">
+<dict>
+	<key>comment</key>
+	<string>Go Template Specification &lt;https://golang.org/pkg/text/template/&gt;</string>
+	<key>fileTypes</key>
+	<array>
+		<string>tmpl</string>
+	</array>
+	<key>foldingStartMarker</key>
+	<string>(?x)
+		(&lt;(?i:head|body|table|thead|tbody|tfoot|tr|div|select|fieldset|style|script|ul|ol|form|dl)\b.*?&gt;
+		|&lt;!--(?!.*--&gt;)
+		|\{\s*($|\?&gt;\s*$|//|/\*(.*\*/\s*$|(?!.*?\*/)))
+		)</string>
+	<key>foldingStopMarker</key>
+	<string>(?x)
+		(&lt;/(?i:head|body|table|thead|tbody|tfoot|tr|div|select|fieldset|style|script|ul|ol|form|dl)&gt;
+		|^\s*--&gt;
+		|(^|\s)\}
+		)</string>
+	<key>injections</key>
+	<dict>
+		<key>text.html.go - (meta.embedded.html.go | comment)</key>
+		<dict>
+			<key>patterns</key>
+			<array>
+				<dict>
+					<key>begin</key>
+					<string>(^\s*)?(?={{)</string>
+					<key>beginCaptures</key>
+					<dict>
+						<key>1</key>
+						<dict>
+							<key>name</key>
+							<string>punctuation.whitespace.embedded.leading.html</string>
+						</dict>
+					</dict>
+					<key>contentName</key>
+					<string>meta.embedded.html.go</string>
+					<key>end</key>
+					<string>(?!\G)(\s*\n)?</string>
+					<key>endCaptures</key>
+					<dict>
+						<key>1</key>
+						<dict>
+							<key>name</key>
+							<string>punctuation.whitespace.embedded.trailing.html</string>
+						</dict>
+					</dict>
+					<key>patterns</key>
+					<array>
+						<dict>
+							<key>begin</key>
+							<string>{{</string>
+							<key>beginCaptures</key>
+							<dict>
+								<key>0</key>
+								<dict>
+									<key>name</key>
+									<string>punctuation.section.embedded.begin.html.go</string>
+								</dict>
+							</dict>
+							<key>contentName</key>
+							<string>source.html.go</string>
+							<key>end</key>
+							<string>}}</string>
+							<key>endCaptures</key>
+							<dict>
+								<key>0</key>
+								<dict>
+									<key>name</key>
+									<string>punctuation.section.embedded.end.html.go</string>
+								</dict>
+							</dict>
+							<key>patterns</key>
+							<array>
+								<dict>
+									<key>include</key>
+									<string>#keywords</string>
+								</dict>
+								<dict>
+									<key>include</key>
+									<string>#constants</string>
+								</dict>
+								<dict>
+									<key>include</key>
+									<string>#variables</string>
+								</dict>
+								<dict>
+									<key>include</key>
+									<string>#methods</string>
+								</dict>
+								<dict>
+									<key>include</key>
+									<string>#calls</string>
+								</dict>
+								<dict>
+									<key>include</key>
+									<string>#strings</string>
+								</dict>
+							</array>
+						</dict>
+					</array>
+				</dict>
+			</array>
+		</dict>
+	</dict>
+	<key>keyEquivalent</key>
+	<string>^~G</string>
+	<key>name</key>
+	<string>HTML (Go)</string>
+	<key>patterns</key>
+	<array>
+		<dict>
+			<key>include</key>
+			<string>text.html.basic</string>
+		</dict>
+	</array>
+	<key>repository</key>
+	<dict>
+		<key>calls</key>
+		<dict>
+			<key>captures</key>
+			<dict>
+				<key>1</key>
+				<dict>
+					<key>name</key>
+					<string>entity.name.function.html.go</string>
+				</dict>
+			</dict>
+			<key>match</key>
+			<string>(?&lt;={{)\s*([\w\.]+)\b</string>
+		</dict>
+		<key>constants</key>
+		<dict>
+			<key>match</key>
+			<string>\b(?:if|else|end|range|template|with)\b</string>
+			<key>name</key>
+			<string>keyword.control.html.go</string>
+		</dict>
+		<key>keywords</key>
+		<dict>
+			<key>match</key>
+			<string>\b(?:true|false)\b</string>
+			<key>name</key>
+			<string>constant.language.html.go</string>
+		</dict>
+		<key>methods</key>
+		<dict>
+			<key>match</key>
+			<string>\.[\w\.]+\b</string>
+			<key>name</key>
+			<string>support.function.any-method.html.go</string>
+		</dict>
+		<key>strings</key>
+		<dict>
+			<key>begin</key>
+			<string>"</string>
+			<key>beginCaptures</key>
+			<dict>
+				<key>0</key>
+				<dict>
+					<key>name</key>
+					<string>punctuation.definition.string.begin.html.go</string>
+				</dict>
+			</dict>
+			<key>end</key>
+			<string>(?&lt;!\\)(?:\\\\)*\K"</string>
+			<key>endCaptures</key>
+			<dict>
+				<key>0</key>
+				<dict>
+					<key>name</key>
+					<string>punctuation.definition.string.end.html.go</string>
+				</dict>
+			</dict>
+			<key>name</key>
+			<string>string.quoted.double.html.go</string>
+		</dict>
+		<key>variables</key>
+		<dict>
+			<key>match</key>
+			<string>\$[\w\.]+\b</string>
+			<key>name</key>
+			<string>variable.other.predefined.html.go</string>
+		</dict>
+	</dict>
+	<key>scopeName</key>
+	<string>text.html.go</string>
+	<key>uuid</key>
+	<string>76127A52-A229-4977-9885-E15CCF14948E</string>
+</dict>
+</plist>

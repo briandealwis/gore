@@ -1,0 +1,57 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<?eclipse version="3.4"?>
+<plugin>
+   <extension
+         point="org.eclipse.core.contenttype.contentTypes">
+      <content-type
+            base-type="org.eclipse.core.runtime.text"
+            default-charset="UTF-8"
+            file-extensions="go"
+            id="ca.mt.gore.golang"
+            name="Golang"
+            priority="normal">
+      </content-type>
+   </extension>
+   <extension
+         point="org.eclipse.lsp4e.languageServer">
+      <contentTypeMapping
+            contentType="ca.mt.gore.golang"
+            id="ca.mt.gore.server">
+      </contentTypeMapping>
+      <server
+            class="ca.mt.gore.SourcegraphGoServer"
+            id="ca.mt.gore.server"
+            label="SourceGraph Go Language Server">
+      </server>
+   </extension>
+   <extension
+         point="org.eclipse.ui.genericeditor.presentationReconcilers">
+      <presentationReconciler
+            class="org.eclipse.tm4e.ui.text.TMPresentationReconciler"
+            contentType="ca.mt.gore.golang">
+      </presentationReconciler>
+   </extension>
+   <extension
+         point="org.eclipse.ui.editors">
+      <editorContentTypeBinding
+            contentTypeId="ca.mt.gore.golang"
+            editorId="org.eclipse.ui.genericeditor.GenericEditor">
+      </editorContentTypeBinding>
+   </extension>
+   <extension
+         point="org.eclipse.tm4e.registry.grammars">
+      <grammar
+            path="syntaxes/Go.tmLanguage"
+            scopeName="source.go">
+      </grammar>
+      <scopeNameContentTypeBinding
+            contentTypeId="ca.mt.gore.golang"
+            scopeName="source.go">
+      </scopeNameContentTypeBinding>
+      <grammar
+            path="syntaxes/HTML (Go).tmLanguage"
+            scopeName="text.html.go">
+      </grammar>
+      <injection scopeName="text.html.go" injectTo="source.go"/>
+   </extension>
+</plugin>
