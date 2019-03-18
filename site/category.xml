@@ -1,0 +1,7 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<site>
+   <bundle id="ca.mt.gore">
+     <category id="tools"/>
+   </bundle>
+   <category-def name="tools" label="Eclipse Development Tools"/>
+</site>

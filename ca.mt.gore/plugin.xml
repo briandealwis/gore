@@ -7,7 +7,7 @@
             base-type="org.eclipse.core.runtime.text"
             default-charset="UTF-8"
             file-extensions="go"
-            id="ca.mt.gore.golang"
+            id="org.golang"
             name="Golang"
             priority="normal">
       </content-type>
@@ -15,13 +15,13 @@
    <extension
          point="org.eclipse.lsp4e.languageServer">
       <contentTypeMapping
-            contentType="ca.mt.gore.golang"
+            contentType="org.golang"
             id="ca.mt.gore.server">
       </contentTypeMapping>
       <server
-            class="ca.mt.gore.SourcegraphGoServer"
+            class="ca.mt.gore.GoServer"
             id="ca.mt.gore.server"
-            label="SourceGraph Go Language Server">
+            label="Go Language Server (Bingo)">
       </server>
    </extension>
    <extension
