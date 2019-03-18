@@ -1,7 +1,7 @@
 GORE: Go Runtime for Eclipse
 ============================
 
-Binds a simple Go [language server binding](https://langserver.org) to
+Provides a simple Go [language server binding](https://langserver.org) to
 use the [Bingo][bingo] language server within Eclipse.
 
 ## Building

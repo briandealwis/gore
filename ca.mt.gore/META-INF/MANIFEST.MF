@@ -1,6 +1,6 @@
 Manifest-Version: 1.0
 Bundle-ManifestVersion: 2
-Bundle-Name: Gorp - Go Runtime for Eclipse
+Bundle-Name: GORE - Go Runtime for Eclipse
 Bundle-SymbolicName: ca.mt.gore;singleton:=true
 Bundle-Version: 0.0.1.qualifier
 Automatic-Module-Name: ca.mt.gore
