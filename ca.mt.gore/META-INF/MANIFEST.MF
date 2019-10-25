@@ -11,6 +11,7 @@ Require-Bundle: org.eclipse.lsp4e;bundle-version="0.7.0",
  org.eclipse.ui.genericeditor;bundle-version="1.1.100",
  org.eclipse.tm4e.ui;bundle-version="0.2.0",
  org.eclipse.tm4e.core;bundle-version="0.2.0",
- org.eclipse.jface.text
+ org.eclipse.jface.text,
+ com.google.guava
 Import-Package: org.eclipse.core.runtime;version="3.5.0",
  org.osgi.framework
