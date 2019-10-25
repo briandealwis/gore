@@ -4,10 +4,10 @@
    <extension
          point="org.eclipse.core.contenttype.contentTypes">
       <content-type
+            id="org.golang"
             base-type="org.eclipse.core.runtime.text"
             default-charset="UTF-8"
             file-extensions="go"
-            id="org.golang"
             name="Golang"
             priority="normal">
       </content-type>
@@ -21,20 +21,20 @@
       <server
             class="ca.mt.gore.GoServer"
             id="ca.mt.gore.server"
-            label="Go Language Server (Bingo)">
+            label="Go Language Server (Gopls/Bingo)">
       </server>
    </extension>
    <extension
          point="org.eclipse.ui.genericeditor.presentationReconcilers">
       <presentationReconciler
             class="org.eclipse.tm4e.ui.text.TMPresentationReconciler"
-            contentType="ca.mt.gore.golang">
+            contentType="org.golang">
       </presentationReconciler>
    </extension>
    <extension
          point="org.eclipse.ui.editors">
       <editorContentTypeBinding
-            contentTypeId="ca.mt.gore.golang"
+            contentTypeId="org.golang"
             editorId="org.eclipse.ui.genericeditor.GenericEditor">
       </editorContentTypeBinding>
    </extension>
@@ -45,7 +45,7 @@
             scopeName="source.go">
       </grammar>
       <scopeNameContentTypeBinding
-            contentTypeId="ca.mt.gore.golang"
+            contentTypeId="org.golang"
             scopeName="source.go">
       </scopeNameContentTypeBinding>
       <grammar
@@ -53,5 +53,12 @@
             scopeName="text.html.go">
       </grammar>
       <injection scopeName="text.html.go" injectTo="source.go"/>
+   </extension>
+   <extension
+         point="org.eclipse.tm4e.languageconfiguration.languageConfigurations">
+      <languageConfiguration
+            contentTypeId="org.golang"
+            path="conf/language-configuration.json">
+      </languageConfiguration>
    </extension>
 </plugin>
