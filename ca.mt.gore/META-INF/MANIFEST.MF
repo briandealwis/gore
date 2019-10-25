@@ -3,6 +3,7 @@ Bundle-ManifestVersion: 2
 Bundle-Name: GORE - Go Runtime for Eclipse
 Bundle-SymbolicName: ca.mt.gore;singleton:=true
 Bundle-Version: 0.0.1.qualifier
+Bundle-ActivationPolicy: lazy
 Automatic-Module-Name: ca.mt.gore
 Bundle-RequiredExecutionEnvironment: JavaSE-1.8
 Require-Bundle: org.eclipse.lsp4e;bundle-version="0.7.0",
