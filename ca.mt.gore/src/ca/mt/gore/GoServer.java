@@ -68,12 +68,12 @@ public class GoServer implements StreamConnectionProvider {
 			LanguageServerPlugin.logError("GORE: Could not find gopls or bingo", ex);
 			throw ex;
 		}
+
+                File workingDir = new File(".");
 		if (os.equals(Platform.OS_WIN32)) {
-			provider = new ProcessOverSocketStreamConnectionProvider(commands, CONNECTION_PORT) {
-			};
+			provider = new ProcessOverSocketStreamConnectionProvider(commands, workingDir.toString(), CONNECTION_PORT) {};
 		} else {
-			provider = new ProcessStreamConnectionProvider(commands) {
-			};
+			provider = new ProcessStreamConnectionProvider(commands, workingDir.toString()) {};
 		}
 	}
 
