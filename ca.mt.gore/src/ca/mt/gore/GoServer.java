@@ -69,11 +69,13 @@ public class GoServer implements StreamConnectionProvider {
 			throw ex;
 		}
 
-                File workingDir = new File(".");
+		File workingDir = new File(".");
 		if (os.equals(Platform.OS_WIN32)) {
-			provider = new ProcessOverSocketStreamConnectionProvider(commands, workingDir.toString(), CONNECTION_PORT) {};
+			provider = new ProcessOverSocketStreamConnectionProvider(commands, workingDir.toString(), CONNECTION_PORT) {
+			};
 		} else {
-			provider = new ProcessStreamConnectionProvider(commands, workingDir.toString()) {};
+			provider = new ProcessStreamConnectionProvider(commands, workingDir.toString()) {
+			};
 		}
 	}
 
@@ -82,18 +84,23 @@ public class GoServer implements StreamConnectionProvider {
 			program += ".exe";
 		}
 		List<Supplier<String>> pathProviders = Arrays.asList(() -> System.getenv("GOBIN"),
-				() -> System.getenv("GOPATH"), () -> run("go", "env", "GOBIN"), () -> run("go", "env", "GOPATH"));
+				() -> System.getenv("GOPATH"), () -> run("go", "env", "GOBIN"), () -> run("go", "env", "GOPATH"),
+				() -> new File(System.getenv("HOME"), "go").toString());
 		for (Supplier<String> provider : pathProviders) {
 			String path = provider.get();
 			if (!Strings.isNullOrEmpty(path)) {
-				String fullPath = resolve(path, "bin" + File.separator + program);
+				String fullPath = resolve(path, program);
+				if (fullPath != null) {
+					return fullPath;
+				}
+				fullPath = resolve(path, "bin" + File.separator + program);
 				if (fullPath != null) {
 					return fullPath;
 				}
 			}
 		}
 
-		return resolve(program, System.getenv("PATH"));
+		return resolve(System.getenv("PATH"), program);
 	}
 
 	private static String run(String... cmd) {
