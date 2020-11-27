@@ -3,6 +3,9 @@ package ca.mt.gore;
 import com.google.common.base.Splitter;
 import com.google.common.base.Strings;
 import com.google.common.io.ByteStreams;
+import com.google.gson.Gson;
+import com.google.gson.JsonObject;
+import com.google.gson.JsonSyntaxException;
 import java.io.File;
 import java.io.IOException;
 import java.io.InputStream;
@@ -39,13 +42,15 @@ public class GoServer implements StreamConnectionProvider {
 	@Override
 	public Object getInitializationOptions(URI rootUri) {
 		// https://github.com/golang/tools/blob/master/gopls/doc/settings.md
-		return StreamConnectionProvider.super.getInitializationOptions(rootUri);
-	}
-
-	@Override
-	public Object getExperimentalFeaturesPOJO() {
-		// TODO Auto-generated method stub
-		return StreamConnectionProvider.super.getExperimentalFeaturesPOJO();
+		String settingsJson = PreferencesInitializer.getPreferences().getString(PreferencesInitializer.SETTINGS_JSON);
+		if (!Strings.isNullOrEmpty(settingsJson)) {
+			try {
+				return new Gson().fromJson(settingsJson, JsonObject.class);
+			} catch(JsonSyntaxException e) {
+				LanguageServerPlugin.logInfo("GORE: Invalid JSON object for settings: " + e + "\n" + settingsJson);
+			}
+		}
+		return null;
 	}
 
 	@Override

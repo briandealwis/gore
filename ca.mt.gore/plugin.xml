@@ -2,6 +2,22 @@
 <?eclipse version="3.4"?>
 <plugin>
    <extension
+         point="org.eclipse.equinox.preferences.preferences">
+      <initializer
+            class="ca.mt.gore.PreferencesInitializer">
+      </initializer>
+   </extension>
+   <extension
+         point="org.eclipse.ui.preferencePages">
+      <page
+            category="org.eclipse.lsp4e.preferences"
+            id="ca.mt.gore.gopls"
+            class="ca.mt.gore.ui.GoplsPreferencePage"
+            name="Gopls">
+      </page>
+   </extension>
+
+   <extension
          point="org.eclipse.core.contenttype.contentTypes">
       <content-type
             id="org.golang"
