@@ -31,7 +31,10 @@ GORE looks in the following locations:
   - $PATH
 
 See the [`gopls` installation instructions](gopls-install) for how to
-install `gopls`.
+install `gopls`.  This often seems to do the trick:
+```sh
+(cd /tmp; GO111MODULE=on go get golang.org/x/tools/gopls\@latest)
+```
 
   [lsp4e]: https://wiki.eclipse.org/LSP4E
   [tm4e]: https://github.com/eclipse/tm4e
