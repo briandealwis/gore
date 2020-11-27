@@ -7,6 +7,7 @@ import java.io.File;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.OutputStream;
+import java.net.URI;
 import java.nio.charset.StandardCharsets;
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -23,8 +24,7 @@ public class GoServer implements StreamConnectionProvider {
 
 	private StreamConnectionProvider provider;
 
-	public GoServer() {
-	}
+	public GoServer() {}
 
 	@Override
 	public void start() throws IOException {
@@ -36,6 +36,24 @@ public class GoServer implements StreamConnectionProvider {
 		provider.start();
 	}
 
+	@Override
+	public Object getInitializationOptions(URI rootUri) {
+		// https://github.com/golang/tools/blob/master/gopls/doc/settings.md
+		return StreamConnectionProvider.super.getInitializationOptions(rootUri);
+	}
+
+	@Override
+	public Object getExperimentalFeaturesPOJO() {
+		// TODO Auto-generated method stub
+		return StreamConnectionProvider.super.getExperimentalFeaturesPOJO();
+	}
+
+	@Override
+	public String getTrace(URI rootUri) {
+		// should be one of "off", "messages", or "verbose"
+		return "messages";
+	}
+
 	private void createProvider() throws IOException {
 		String os = Platform.getOS();
 		List<String> commands = new ArrayList<>();
@@ -45,6 +63,7 @@ public class GoServer implements StreamConnectionProvider {
 			LanguageServerPlugin.logInfo("GORE: Found gopls at " + gopls);
 			commands.add(gopls);
 			commands.add("serve");
+			commands.add("-rpc.trace");
 			if (os.equals(Platform.OS_WIN32)) {
 				commands.add("--listen=127.0.0.1:" + CONNECTION_PORT);
 			}
@@ -71,11 +90,10 @@ public class GoServer implements StreamConnectionProvider {
 
 		File workingDir = new File(".");
 		if (os.equals(Platform.OS_WIN32)) {
-			provider = new ProcessOverSocketStreamConnectionProvider(commands, workingDir.toString(), CONNECTION_PORT) {
-			};
+			provider = new ProcessOverSocketStreamConnectionProvider(commands, workingDir.toString(),
+					CONNECTION_PORT) {};
 		} else {
-			provider = new ProcessStreamConnectionProvider(commands, workingDir.toString()) {
-			};
+			provider = new ProcessStreamConnectionProvider(commands, workingDir.toString()) {};
 		}
 	}
 
