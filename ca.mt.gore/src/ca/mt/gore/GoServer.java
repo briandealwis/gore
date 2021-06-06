@@ -72,23 +72,10 @@ public class GoServer implements StreamConnectionProvider {
 			if (os.equals(Platform.OS_WIN32)) {
 				commands.add("--listen=127.0.0.1:" + CONNECTION_PORT);
 			}
-		} else {
-			String bingo = resolveGoBinary("bingo");
-			if (bingo != null) {
-				LanguageServerPlugin.logInfo("GORE: Found bingo at " + bingo);
-				commands.add(bingo);
-				commands.add("-trace");
-				commands.add("-format-style");
-				commands.add("goimports");
-				if (os.equals(Platform.OS_WIN32)) {
-					commands.add("--mode=tcp");
-					commands.add("--addr=127.0.0.1:" + CONNECTION_PORT);
-				}
-			}
 		}
 
 		if (commands.isEmpty()) {
-			IOException ex = new IOException("Cannot find gopls or bingo");
+			IOException ex = new IOException("Cannot find gopls");
 			LanguageServerPlugin.logError("GORE: Could not find gopls or bingo", ex);
 			throw ex;
 		}

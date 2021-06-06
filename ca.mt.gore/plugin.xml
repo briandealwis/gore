@@ -38,7 +38,7 @@
       <server
             class="ca.mt.gore.GoServer"
             id="ca.mt.gore.server"
-            label="Go Language Server (Gopls/Bingo)">
+            label="Go Language Server (Gopls)">
       </server>
    </extension>
    <extension
