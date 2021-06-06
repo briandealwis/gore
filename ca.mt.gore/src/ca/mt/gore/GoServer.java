@@ -68,7 +68,7 @@ public class GoServer implements StreamConnectionProvider {
 			LanguageServerPlugin.logInfo("GORE: Found gopls at " + gopls);
 			commands.add(gopls);
 			commands.add("serve");
-			commands.add("-rpc.trace");
+			// commands.add("-rpc.trace");
 			if (os.equals(Platform.OS_WIN32)) {
 				commands.add("--listen=127.0.0.1:" + CONNECTION_PORT);
 			}
