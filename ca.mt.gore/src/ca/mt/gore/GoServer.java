@@ -4,17 +4,21 @@ import com.google.common.base.Splitter;
 import com.google.common.base.Strings;
 import com.google.common.io.ByteStreams;
 import com.google.gson.Gson;
+import com.google.gson.JsonElement;
 import com.google.gson.JsonObject;
 import com.google.gson.JsonSyntaxException;
 import java.io.File;
+import java.io.FileReader;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.OutputStream;
+import java.io.Reader;
 import java.net.URI;
 import java.nio.charset.StandardCharsets;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
+import java.util.Map;
 import java.util.function.Supplier;
 import org.eclipse.core.runtime.Platform;
 import org.eclipse.lsp4e.LanguageServerPlugin;
@@ -41,16 +45,45 @@ public class GoServer implements StreamConnectionProvider {
 
 	@Override
 	public Object getInitializationOptions(URI rootUri) {
-		// https://github.com/golang/tools/blob/master/gopls/doc/settings.md
+		JsonObject settings = new JsonObject();
+
 		String settingsJson = PreferencesInitializer.getPreferences().getString(PreferencesInitializer.SETTINGS_JSON);
 		if (!Strings.isNullOrEmpty(settingsJson)) {
 			try {
-				return new Gson().fromJson(settingsJson, JsonObject.class);
-			} catch(JsonSyntaxException e) {
+				settings = new Gson().fromJson(settingsJson, JsonObject.class);
+			} catch (JsonSyntaxException e) {
 				LanguageServerPlugin.logInfo("GORE: Invalid JSON object for settings: " + e + "\n" + settingsJson);
 			}
 		}
-		return null;
+
+		// https://github.com/golang/tools/blob/master/gopls/doc/settings.md
+		File vscodeSettingsFile = new File(new File(new File(rootUri), ".vscode"), "settings.json");
+		try (Reader r = new FileReader(vscodeSettingsFile)) {
+			JsonObject vscodeSettings = new Gson().fromJson(r, JsonObject.class);
+			if (vscodeSettings != null && (vscodeSettings = vscodeSettings.getAsJsonObject("gopls")) != null) {
+				settings = mergeJsonObjects(settings, vscodeSettings);
+			}
+		} catch (IOException ex) {
+		}
+
+		return settings;
+	}
+
+	/**
+	 * Merge {@code original} and {@code other} into a new objects, such that all
+	 * values from {@code other} are copied onto and replace by those in
+	 * {@code original}, and return the result.
+	 *
+	 * @param original
+	 * @param other
+	 */
+	private JsonObject mergeJsonObjects(JsonObject original, JsonObject other) {
+		JsonObject result = original.deepCopy();
+		for (Map.Entry<String, JsonElement> entry : other.entrySet()) {
+			original.remove(entry.getKey());
+			original.add(entry.getKey(), entry.getValue());
+		}
+		return result;
 	}
 
 	@Override
