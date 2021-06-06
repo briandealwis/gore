@@ -1,6 +1,9 @@
 
 package ca.mt.gore;
 
+import com.google.gson.Gson;
+import com.google.gson.GsonBuilder;
+import com.google.gson.JsonObject;
 import org.eclipse.core.runtime.preferences.AbstractPreferenceInitializer;
 import org.eclipse.core.runtime.preferences.DefaultScope;
 import org.eclipse.core.runtime.preferences.InstanceScope;
@@ -17,7 +20,16 @@ public class PreferencesInitializer extends AbstractPreferenceInitializer {
 
 	@Override
 	public void initializeDefaultPreferences() {
-		DefaultScope.INSTANCE.getNode(BUNDLEID).put(SETTINGS_JSON,
-				"{\n  \"experimentalWorkspaceModule\":true,\n  \"experimentalDiagnosticsDelay\": \"100ms\",\n  \"codelens\":{\"test\":true}\n}");
+		// https://github.com/golang/tools/blob/master/gopls/doc/settings.md
+		// https://github.com/golang/tools/blob/master/gopls/doc/workspace.md
+		JsonObject settings = new JsonObject();
+		settings.addProperty("experimentalWorkspaceModule", true);
+		settings.addProperty("experimentalDiagnosticsDelay", "100ms");
+		JsonObject lenses = new JsonObject();
+		lenses.addProperty("test", true);
+		settings.add("codelenses", lenses);
+
+		Gson gson = new GsonBuilder().setPrettyPrinting().create();
+		DefaultScope.INSTANCE.getNode(BUNDLEID).put(SETTINGS_JSON, gson.toJson(settings));
 	}
 }

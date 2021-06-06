@@ -56,7 +56,6 @@ public class GoServer implements StreamConnectionProvider {
 			}
 		}
 
-		// https://github.com/golang/tools/blob/master/gopls/doc/settings.md
 		File vscodeSettingsFile = new File(new File(new File(rootUri), ".vscode"), "settings.json");
 		try (Reader r = new FileReader(vscodeSettingsFile)) {
 			JsonObject vscodeSettings = new Gson().fromJson(r, JsonObject.class);
