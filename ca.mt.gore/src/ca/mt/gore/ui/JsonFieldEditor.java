@@ -19,7 +19,10 @@ import com.google.gson.Gson;
 import com.google.gson.JsonObject;
 import com.google.gson.JsonSyntaxException;
 import org.eclipse.jface.preference.StringFieldEditor;
+import org.eclipse.swt.SWT;
+import org.eclipse.swt.layout.GridData;
 import org.eclipse.swt.widgets.Composite;
+import org.eclipse.swt.widgets.Label;
 
 /**
  * Field editor with JSON validation.
@@ -34,6 +37,15 @@ public class JsonFieldEditor extends StringFieldEditor {
 	public JsonFieldEditor(String name, String label, Composite fieldEditorParent) {
 		super(name, label, UNLIMITED, 7, VALIDATE_ON_KEY_STROKE, fieldEditorParent);
 		setEmptyStringAllowed(true);
+	}
+
+	@Override
+	public Label getLabelControl(Composite parent) {
+		Label label = super.getLabelControl(parent);
+		GridData gd = new GridData();
+		gd.verticalAlignment = SWT.TOP;
+		label.setLayoutData(gd);
+		return label;
 	}
 
 	@Override
