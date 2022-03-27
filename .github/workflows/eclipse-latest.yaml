@@ -1,11 +1,12 @@
-name: Publish latest
+name: Test with latest Eclipse on Java X
 on:
-  push:
+  pull_request:
     branches:
       - main
+  workflow_dispatch:  # Allows running workflow manually from Actions tab
 
 jobs:
-  build-and-deploy:
+  build-and-test:
     runs-on: ubuntu-latest
     steps:
       - name: 🛎️ Checkout
@@ -26,11 +27,3 @@ jobs:
             mvn --show-version --batch-mode --fail-at-end --errors \
               clean verify
 
-      - name: 🚀 Deploy
-        uses: JamesIves/github-pages-deploy-action@4.1.5
-        with:
-          branch: gh-pages
-          folder: site/target/repository
-          target-folder: latest
-          git-config-name: Gore Bot
-          git-config-email: gore@github.io
