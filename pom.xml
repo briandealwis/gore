@@ -44,12 +44,12 @@
     <repository>
       <id>eclipse-lsp4e</id>
       <layout>p2</layout>
-      <url>http://download.eclipse.org/lsp4e/snapshots/</url>
+      <url>http://download.eclipse.org/lsp4e/releases/latest</url>
     </repository>
     <repository>
       <id>eclipse-tm4e</id>
       <layout>p2</layout>
-      <url>http://download.eclipse.org/tm4e/snapshots/</url>
+      <url>http://download.eclipse.org/tm4e/releases/latest/</url>
     </repository>
   </repositories>
 </project>

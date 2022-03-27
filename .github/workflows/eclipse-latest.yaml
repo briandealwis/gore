@@ -1,4 +1,4 @@
-name: Test with latest Eclipse on Java X
+name: Test with latest Eclipse on Java 17
 on:
   pull_request:
     branches:
