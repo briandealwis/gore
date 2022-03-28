@@ -24,7 +24,7 @@ public class PreferencesInitializer extends AbstractPreferenceInitializer {
 		// https://github.com/golang/tools/blob/master/gopls/doc/workspace.md
 		JsonObject settings = new JsonObject();
 		settings.addProperty("experimentalWorkspaceModule", true);
-		settings.addProperty("experimentalDiagnosticsDelay", "100ms");
+		settings.addProperty("diagnosticsDelay", "150ms");
 		JsonObject lenses = new JsonObject();
 		lenses.addProperty("test", true);
 		settings.add("codelenses", lenses);
