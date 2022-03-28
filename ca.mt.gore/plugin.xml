@@ -40,12 +40,13 @@
          point="org.eclipse.lsp4e.languageServer">
       <contentTypeMapping
             contentType="org.golang"
-            id="ca.mt.gore.server.go"
+            id="ca.mt.gore.server"
             languageId="go">
       </contentTypeMapping>
       <contentTypeMapping
             contentType="org.golang.gomod"
-            id="ca.mt.gore.server">
+            id="ca.mt.gore.server"
+            languageId="go">
       </contentTypeMapping>
       <server
             class="ca.mt.gore.GoServer"
