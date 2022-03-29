@@ -143,7 +143,8 @@ public class GoServer implements StreamConnectionProvider {
 	 * Update the gopls environment by adding the gopls location to the PATH.
 	 */
 	public void addGoplsLocationToEnvironment(Map<String, String> environment) {
-		environment.merge("PATH", goplsDir, (pathValue, update) -> pathValue + File.pathSeparator + update);
+		environment.merge("PATH", goplsDir, (pathValue, update) -> pathValue + File.pathSeparator + update); //$NON-NLS-1$
+		LanguageServerPlugin.logInfo("GORE: setting PATH=" + environment.get("PATH")); //$NON-NLS-1$//$NON-NLS-2$
 	}
 
 	@Override
