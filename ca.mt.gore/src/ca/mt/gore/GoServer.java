@@ -1,6 +1,7 @@
 package ca.mt.gore;
 
 import com.google.common.base.Strings;
+import com.google.common.io.CharStreams;
 import com.google.gson.Gson;
 import com.google.gson.JsonElement;
 import com.google.gson.JsonObject;
@@ -9,6 +10,7 @@ import java.io.File;
 import java.io.FileReader;
 import java.io.IOException;
 import java.io.InputStream;
+import java.io.InputStreamReader;
 import java.io.OutputStream;
 import java.io.Reader;
 import java.net.URI;
@@ -118,14 +120,26 @@ public class GoServer implements StreamConnectionProvider {
 	private void createProvider() throws IOException {
 		String os = Platform.getOS();
 
-		String gopls = GoResolver.resolveGoBinary("gopls");
-		if (gopls == null) {
-			IOException ex = new IOException("Cannot find gopls");
-			LanguageServerPlugin.logError("GORE: Could not find gopls or bingo", ex);
+		String go = GoResolver.resolveGoBinary("go");
+		if (go == null) {
+			IOException ex = new IOException("Cannot find go binary");
+			LanguageServerPlugin.logError("GORE: Could not find the go binary", ex);
 			throw ex;
 		}
 
-		LanguageServerPlugin.logInfo("GORE: Found gopls at " + gopls);
+		String gopls = GoResolver.resolveGoBinary("gopls");
+		if (gopls == null) {
+			IOException ex = new IOException("Cannot find gopls binary");
+			LanguageServerPlugin.logError("GORE: Could not find gopls", ex);
+			throw ex;
+		}
+
+		String goVersion = run(new String[] { go, "version" });
+		LanguageServerPlugin.logInfo(
+				"GORE: " + go + " version: \"" + goVersion + "\"");
+		String goplsVersion = run(new String[] { gopls, "version" });
+		LanguageServerPlugin.logInfo(
+				"GORE: " + gopls + " version: \"" + goplsVersion + "\"");
 		goplsDir = gopls.substring(0, gopls.lastIndexOf(File.separator));
 
 		List<String> commands = Arrays.asList(gopls, "serve"); // "-rpc.trace"
@@ -136,6 +150,17 @@ public class GoServer implements StreamConnectionProvider {
 					CONNECTION_PORT);
 		} else {
 			provider = new ProcessStreamConnectionProviderExtension(commands, workingDir.toString());
+		}
+	}
+
+	private String run(String[] cmdline) {
+		try {
+			Process process = Runtime.getRuntime().exec(cmdline);
+			try (final Reader reader = new InputStreamReader(process.getInputStream())) {
+				return CharStreams.toString(reader).trim();
+			}
+		} catch (IOException ex) {
+			return "ERROR: " + ex;
 		}
 	}
 
